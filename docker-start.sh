@@ -33,7 +33,7 @@ check_requirements() {
         exit 1
     fi
     
-    if ! command -v docker-compose &> /dev/null; then
+    if ! command -v docker compose &> /dev/null; then
         print_error "Docker Compose 未安装，请先安装 Docker Compose"
         exit 1
     fi
@@ -71,13 +71,13 @@ create_directories() {
 # 启动服务
 start_services() {
     print_info "启动 TestHub 服务..."
-    docker-compose up -d
+    docker compose up -d
     
     print_info "等待服务启动..."
     sleep 10
     
     print_info "服务状态:"
-    docker-compose ps
+    docker compose ps
     
     print_info ""
     print_info "=========================================="
@@ -95,31 +95,31 @@ start_services() {
 # 停止服务
 stop_services() {
     print_info "停止 TestHub 服务..."
-    docker-compose stop
+    docker compose stop
     print_info "服务已停止 ✓"
 }
 
 # 重启服务
 restart_services() {
     print_info "重启 TestHub 服务..."
-    docker-compose restart
+    docker compose restart
     print_info "服务已重启 ✓"
 }
 
 # 查看日志
 view_logs() {
     print_info "查看服务日志 (Ctrl+C 退出)..."
-    docker-compose logs -f
+    docker compose logs -f
 }
 
 # 查看状态
 view_status() {
     print_info "服务状态:"
-    docker-compose ps
+    docker compose ps
     
     print_info ""
     print_info "资源使用情况:"
-    docker stats --no-stream $(docker-compose ps -q)
+    docker stats --no-stream $(docker compose ps -q)
 }
 
 # 初始化数据
@@ -132,22 +132,22 @@ init_data() {
     
     # 执行数据库迁移
     print_info "执行数据库迁移..."
-    docker-compose exec -T backend python manage.py migrate --noinput
+    docker compose exec -T backend python manage.py migrate --noinput
     
     # 初始化定位策略
     print_info "初始化元素定位策略..."
-    docker-compose exec -T backend python manage.py init_locator_strategies
+    docker compose exec -T backend python manage.py init_locator_strategies
     
     # 收集静态文件
     print_info "收集静态文件..."
-    docker-compose exec -T backend python manage.py collectstatic --noinput
+    docker compose exec -T backend python manage.py collectstatic --noinput
     
     # 创建超级用户
     print_info ""
     print_info "=========================================="
     print_info "创建管理员账号"
     print_info "=========================================="
-    docker-compose exec backend python manage.py createsuperuser
+    docker compose exec backend python manage.py createsuperuser
     
     print_info ""
     print_info "=========================================="
@@ -166,10 +166,10 @@ clean_all() {
     
     if [ "$confirm" = "yes" ]; then
         print_info "停止并删除所有容器..."
-        docker-compose down -v
+        docker compose down -v
         
         print_info "删除镜像..."
-        docker-compose down --rmi all
+        docker compose down --rmi all
         
         print_info "清理完成 ✓"
     else
@@ -187,7 +187,7 @@ backup_data() {
     
     # 备份数据库
     print_info "备份数据库..."
-    docker-compose exec -T mysql mysqldump -u root -ptesthub123 testhub > $BACKUP_DIR/db_$DATE.sql
+    docker compose exec -T mysql mysqldump -u root -ptesthub123 testhub > $BACKUP_DIR/db_$DATE.sql
     
     # 备份媒体文件
     print_info "备份媒体文件..."
