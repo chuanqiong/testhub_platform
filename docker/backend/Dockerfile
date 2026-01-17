@@ -38,7 +38,8 @@ RUN pip install --upgrade pip && \
     pip install -r requirements.txt && \
     pip install gunicorn
 
-# 安装 Playwright 浏览器
+# 安装 Playwright 浏览器（使用国内镜像源加速）
+ENV PLAYWRIGHT_DOWNLOAD_HOST=https://npmmirror.com/mirrors/playwright/
 RUN playwright install chromium firefox && \
     playwright install-deps
 
