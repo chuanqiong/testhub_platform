@@ -19,7 +19,7 @@ COPY . .
 RUN npm run build
 
 # 生产阶段
-FROM docker.aityp.com/nginx:alpine
+FROM swr.cn-north-4.myhuaweicloud.com/ddn-k8s/docker.io/nginx:alpine
 
 # 复制构建产物
 COPY --from=builder /app/dist /usr/share/nginx/html
