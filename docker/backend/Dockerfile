@@ -46,6 +46,10 @@ RUN playwright install chromium firefox && \
 # 复制项目文件
 COPY . .
 
+# 生成数据库迁移文件（确保 users app 有初始迁移）
+RUN python manage.py makemigrations users && \
+    python manage.py makemigrations
+
 # 创建必要的目录
 RUN mkdir -p /app/media /app/logs /app/static && \
     chmod -R 755 /app/media /app/logs /app/static
