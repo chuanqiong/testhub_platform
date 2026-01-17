@@ -39,7 +39,6 @@ frontend/node_modules/
 
 # Docker
 docker-compose.yml
-Dockerfile
 .dockerignore
 
 # Environment

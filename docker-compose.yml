@@ -152,7 +152,7 @@ services:
   frontend:
     build:
       context: ./frontend
-      dockerfile: ../docker/frontend/Dockerfile
+      dockerfile: Dockerfile
       args:
         - NODE_ENV=production
     container_name: testhub_frontend
